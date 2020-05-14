@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2"> 
+  <plugin-info> 
+    <description>${project.description}</description>  
+    <version>${project.version}</version>  
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>  
+    <param name="plugin-icon">images/pluginIcon.png</param>  
+    <param name="plugin-logo">images/pluginLogo.png</param> 
+  </plugin-info>
+
+  <!-- add our i18n resource -->  
+  <resource type="i18n" name="i18n" location="testPlugin"/>  
+  <!-- add our web resources
+
+    <web-resource key="testPlugin-resources" name="testPlugin Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        
+        <resource type="download" name="testPlugin.css" location="/css/testPlugin.css"/>
+        <resource type="download" name="images/" location="/images"/>
+        <dependency>confluence.editor.actions:editor-macro-browser</dependency>
+        <context>testPlugin</context>
+    </web-resource>
+    -->
+
+  <xhtml-macro name="Knowledge text mapper macro" class="testPlugin.macros.Macros" key="helloworld-macro">
+    <description key="helloworld.macro.desc"/>  
+    <category name="formatting"/>  
+    <parameters>
+
+      <parameter name="Scope" type="enum" />
+
+      <parameter name="Difficulty" type="enum" />
+
+      <parameter name="Labels" type="string"/>
+
+      <parameter name="labelSelector" type="string"/>
+
+    </parameters> 
+  </xhtml-macro>
+
+  <web-resource key="testParametersResource" name="Add parameters"> 
+    <resource type="download" name="testParameters.js" location="js/testParameters.js"/>  
+    <dependency>confluence.editor.actions:editor-macro-browser</dependency>  
+    <context>macro-browser</context> 
+  </web-resource>
+
+  <!-- ACTIVE OBJECTS -->  
+  <ao key="ao-module"> 
+    <description>The module configuring the Active Objects service used by this plugin</description>
+    <entity>testPlugin.models.DifficultyLevel</entity>
+    <entity>testPlugin.models.Label</entity>
+    <entity>testPlugin.models.Scope</entity>
+  </ao>  
+  <!-- ACTIVE OBJECTS -->
+
+  <!-- SERVLETS -->
+  <!-- confluence/plugins/servlet/... -->
+  <servlet name="Test List AND Add Test" class="testPlugin.servlets.TestServlet" key="test-list"> 
+    <description>A servlet to add and list tests</description>  
+    <url-pattern>/test/list</url-pattern> 
+  </servlet>  
+  <!-- SERVLETS -->
+
+  <!-- REST -->
+  <!-- confluence/rest/test-rest/latest/... -->
+  <rest name="Test Rest" i18n-name-key="test-rest.name" key="test-rest" path="/test-rest" version="1.0"> 
+    <description key="test-rest.description">The Test Rest Plugin</description> 
+  </rest>
+  <!-- REST -->
+
+  <!-- Web Item -->
+  <web-item key="testPluginHome" section="system.header/left" weight="60">
+    <description>Link to testPlugin Home</description>
+    <label key="item.testPlugin.home.label"/>
+    <link linkId="testPluginHome">/plugins/servlet/test/list</link>
+  </web-item>
+  <!-- Web Item -->
+
+</atlassian-plugin>
